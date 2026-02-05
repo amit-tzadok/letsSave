@@ -213,6 +213,15 @@ function App() {
     setCardAmount('')
   }
 
+  const resetCreditCard = () => {
+    if (data.creditCardBalance === 0) return
+    showNotification(`Credit card balance reset from ${formatMoney(data.creditCardBalance)}`)
+    setData((prev) => ({
+      ...prev,
+      creditCardBalance: 0,
+    }))
+  }
+
   const handleHangoutBudget = (field, value) => {
     setHangoutBudget((prev) => ({
       ...prev,
@@ -562,7 +571,12 @@ function App() {
               <div className="kpi-card">
                 <p className="label">Credit card</p>
                 <p className="value">{formatMoney(data.creditCardBalance)}</p>
-                <span className="kpi-chip">Balance owed</span>
+                <div className="kpi-actions">
+                  <span className="kpi-chip">Balance owed</span>
+                  {data.creditCardBalance > 0 && (
+                    <button className="kpi-reset" onClick={resetCreditCard}>Reset</button>
+                  )}
+                </div>
               </div>
               <div className="kpi-card">
                 <p className="label">Left to goal</p>
