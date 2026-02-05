@@ -53,6 +53,8 @@ const formatMoney = (value) => {
 }
 
 function App() {
+  console.log('🎨 App loaded with NEW enhanced code!')
+  
   const [data, setData] = useState(() => {
     if (typeof window === 'undefined') return defaultData
     try {
@@ -125,6 +127,7 @@ function App() {
   }, [data])
 
   const showNotification = (message, type = 'success') => {
+    console.log('Showing notification:', message, type)
     setNotification({ message, type })
     setTimeout(() => setNotification(null), 3000)
   }
@@ -465,7 +468,7 @@ function App() {
           <a href="#overview">Overview</a>
           <a href="#balance">Balance</a>
           <a href="#wishlist">Wishlist</a>
-          <a href="#goals">Piggybanks</a>
+          <a href="#goals">Goals</a>
         </nav>
         <div className="side-footer">
           <p>Stay focused on the goals you love.</p>
@@ -488,67 +491,16 @@ function App() {
                 onDragOver={handlePiggyDragOver}
                 onDragLeave={handlePiggyDragLeave}
               >
-                  <svg className="piggy-graphic" viewBox="0 0 300 200" role="img">
-                    <defs>
-                      <linearGradient id="piggyBody" x1="0" x2="1" y1="0" y2="1">
-                        <stop offset="0%" stopColor="#ff9fd3" />
-                        <stop offset="100%" stopColor="#ff6fb3" />
-                      </linearGradient>
-                      <linearGradient id="piggyShade" x1="0" x2="1" y1="0" y2="0">
-                        <stop offset="0%" stopColor="#ffb6dd" />
-                        <stop offset="100%" stopColor="#ff7bc3" />
-                      </linearGradient>
-                    </defs>
-                    <g className="piggy-body">
-                      {/* main body */}
-                      <ellipse cx="160" cy="110" rx="92" ry="60" fill="url(#piggyBody)" />
-                      {/* belly highlight */}
-                      <ellipse cx="140" cy="128" rx="58" ry="34" fill="rgba(255,255,255,0.18)" />
-                      {/* head base */}
-                      <ellipse cx="78" cy="108" rx="38" ry="30" fill="url(#piggyShade)" />
-                      {/* ear back */}
-                      <ellipse cx="76" cy="82" rx="20" ry="14" fill="#ff9fd3" />
-                      {/* ear front */}
-                      <ellipse cx="100" cy="82" rx="18" ry="12" fill="#ff7bc3" />
-                      {/* cheek highlight */}
-                      {/* <ellipse cx="112" cy="92" rx="14" ry="10" fill="#ffb6dd" /> */}
-                      {/* coin slot */}
-                      <rect x="130" y="92" width="70" height="12" rx="6" fill="#ffd3e9" />
-                      {/* front leg */}
-                      <rect x="118" y="140" width="18" height="30" rx="8" fill="#ff7bc3" />
-                      {/* middle leg */}
-                      <rect x="155" y="144" width="18" height="28" rx="8" fill="#ff7bc3" />
-                      {/* back leg */}
-                      <rect x="194" y="144" width="18" height="28" rx="8" fill="#ff7bc3" />
-                      {/* snout */}
-                      <circle cx="73" cy="110" r="12" fill="#ff7bc3" />
-                      {/* nostril left */}
-                      <circle cx="67" cy="108" r="3" fill="#2a1d23" />
-                      {/* nostril right */}
-                      <circle cx="79" cy="108" r="3" fill="#2a1d23" />
-                      {/* eye front */}
-                      <circle cx="92" cy="108" r="5" fill="#2a1d23" className="piggy-eye" />
-                      {/* eye shine front */}
-                      <circle cx="92" cy="108" r="2" fill="#fff" />
-                      {/* eye front */}
-                      <circle cx="55" cy="108" r="5" fill="#2a1d23" className="piggy-eye" />
-                      {/* eye shine front */}
-                      <circle cx="55" cy="108" r="2" fill="#fff" />
-                      {/* tail */}
-                      <path
-                        className="piggy-tail"
-                        d="M250 120 C268 116, 274 98, 252 92"
-                        stroke="#ff7bc3"
-                        strokeWidth="8"
-                        fill="none"
-                        strokeLinecap="round"
-                      />
-                    </g>
+                  <svg className="piggy-graphic" viewBox="0 0 120 80" role="img">
+                    <rect x="10" y="20" width="100" height="50" rx="8" fill="rgba(255,255,255,0.2)" />
+                    <rect x="20" y="30" width="80" height="8" rx="4" fill="rgba(255,255,255,0.3)" />
+                    <circle cx="60" cy="55" r="12" fill="rgba(255,255,255,0.25)" />
+                    <rect x="56" y="48" width="8" height="14" rx="2" fill="rgba(255,255,255,0.4)" />
                   </svg>
-                  <p className="piggy-caption">Feed the piggybank</p>
+                  <p className="piggy-caption">Quick Deposit</p>
                   <div className="piggy-actions">
                     <label className="input-group">
-                      <span>Coin value</span>
+                      <span>Amount</span>
                       <input
                         type="number"
                         min="0"
@@ -564,7 +516,7 @@ function App() {
                       draggable
                       onDragStart={handleCoinDragStart}
                     >
-                      <span>Drag coin</span>
+                      <span>{coinAmount ? `Drag $${coinAmount}` : 'Drag coin'}</span>
                     </button>
                   </div>
               </div>
