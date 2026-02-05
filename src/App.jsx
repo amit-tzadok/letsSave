@@ -293,6 +293,19 @@ function App() {
     event.dataTransfer.effectAllowed = 'copy'
   }
 
+  const handleQuickDeposit = () => {
+    const amount = clampNumber(Number(coinAmount))
+    if (!amount) return
+    setData((prev) => ({
+      ...prev,
+      available: prev.available + amount,
+    }))
+    setCoinAmount('')
+    setPiggyCelebrate(true)
+    showNotification(`Added ${formatMoney(amount)} to available cash`)
+    window.setTimeout(() => setPiggyCelebrate(false), 900)
+  }
+
   const handlePiggyDrop = (event) => {
     event.preventDefault()
     const amount = clampNumber(Number(event.dataTransfer.getData('text/plain')))
@@ -513,17 +526,16 @@ function App() {
                     <button
                       className="coin"
                       type="button"
-                      draggable
-                      onDragStart={handleCoinDragStart}
+                      onClick={handleQuickDeposit}
                     >
-                      <span>{coinAmount ? `Drag $${coinAmount}` : 'Drag coin'}</span>
+                      <span>{coinAmount ? `Add $${coinAmount}` : 'Add'}</span>
                     </button>
                   </div>
               </div>
               <div className="totals-card">
                 <div>
                   <p className="label">Available cash</p>
-                  <p className="value">{formatMoney(data.available)}</p>
+                  <p className="value">{formatMoney(netAvailable)}</p>
                 </div>
                 <div>
                   <p className="label">Total saved</p>
@@ -539,8 +551,8 @@ function App() {
             <section className="kpi-strip">
               <div className="kpi-card">
                 <p className="label">Available</p>
-                <p className="value">{formatMoney(data.available)}</p>
-                <span className="kpi-chip">Ready to allocate</span>
+                <p className="value">{formatMoney(netAvailable)}</p>
+                <span className="kpi-chip">After credit card</span>
               </div>
               <div className="kpi-card">
                 <p className="label">Total saved</p>
