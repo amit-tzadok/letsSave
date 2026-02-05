@@ -1,9 +1,7 @@
-name: Deploy to GitHub Pages
+name: Deploy to GitHub Pages (disabled)
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   pages:
