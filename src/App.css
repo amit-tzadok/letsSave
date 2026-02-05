@@ -243,17 +243,25 @@ p {
 
 .piggy-actions .input-group span {
   font-size: 12px;
-  opacity: 0.8;
+  color: #fff;
+  font-weight: 500;
 }
 
 .piggy-actions input {
   background: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 2px solid rgba(255, 255, 255, 0.5);
   border-radius: var(--radius);
-  padding: 10px 12px;
+  padding: 12px 14px;
   color: var(--ink);
-  font-size: 14px;
+  font-size: 16px;
   width: 100%;
+  cursor: text;
+}
+
+.piggy-actions input:focus {
+  outline: none;
+  border-color: #fff;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
 }
 
 .piggy-actions input::placeholder {
