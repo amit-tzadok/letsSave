@@ -117,10 +117,17 @@ function App() {
   const [wishTitle, setWishTitle] = useState('')
   const [wishPrice, setWishPrice] = useState('')
   const [wishLink, setWishLink] = useState('')
+  const [notification, setNotification] = useState(null)
+  const [activeTooltip, setActiveTooltip] = useState(null)
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
   }, [data])
+
+  const showNotification = (message, type = 'success') => {
+    setNotification({ message, type })
+    setTimeout(() => setNotification(null), 3000)
+  }
 
   const totals = useMemo(() => {
     const saved = data.goals.reduce((sum, goal) => sum + goal.saved, 0)
@@ -148,6 +155,11 @@ function App() {
       }
     })
     setAdjustAmount('')
+    showNotification(
+      adjustType === 'add'
+        ? `Added ${formatMoney(amount)} to your balance`
+        : `Removed ${formatMoney(amount)} from your balance`
+    )
   }
 
   const handleAddGoal = (event) => {
@@ -170,6 +182,7 @@ function App() {
     }))
     setNewGoalName('')
     setNewGoalTarget('')
+    showNotification(`Created new goal: ${name}`)
   }
 
   const handleCreditCard = (event) => {
@@ -179,6 +192,7 @@ function App() {
 
     setData((prev) => {
       if (cardType === 'charge') {
+        showNotification(`Added ${formatMoney(amount)} to card balance`)
         return {
           ...prev,
           creditCardBalance: prev.creditCardBalance + amount,
@@ -186,6 +200,7 @@ function App() {
       }
 
       const payment = Math.min(amount, prev.available, prev.creditCardBalance)
+      showNotification(`Paid ${formatMoney(payment)} to credit card`)
       return {
         ...prev,
         available: prev.available - payment,
@@ -415,6 +430,7 @@ function App() {
       }
     })
     updateTransferAmount(goalId, '')
+    showNotification(`Saved ${formatMoney(amount)} to your goal!`)
   }
 
   const releaseFromGoal = (goalId) => {
@@ -435,6 +451,7 @@ function App() {
       }
     })
     updateTransferAmount(goalId, '')
+    showNotification(`Released ${formatMoney(amount)} from goal`)
   }
 
   return (
@@ -1170,6 +1187,24 @@ function App() {
               </button>
             </div>
           </div>
+        </div>
+      ) : null}
+
+      {notification ? (
+        <div className={`notification ${notification.type}`} role="alert">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M10 0C4.48 0 0 4.48 0 10s4.48 10 10 10 10-4.48 10-10S15.52 0 10 0zm-2 15l-5-5 1.41-1.41L8 12.17l7.59-7.59L17 6l-9 9z"
+              fill="currentColor"
+            />
+          </svg>
+          <span>{notification.message}</span>
         </div>
       ) : null}
     </div>
